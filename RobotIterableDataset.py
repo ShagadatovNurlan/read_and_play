@@ -57,7 +57,7 @@ class RobotIterableDataset(IterableDataset):
             if rgb_idx_diff>0:
                 for _ in range(rgb_idx_diff):
                     rgb_frame = self._get_rgb_frame()
-            rgb_idx_pivot = rgb_idx
+                rgb_idx_pivot = rgb_idx
 
             sample = {'ts':ts, 'touch': observation, 'rgb':rgb_frame, 'depth': depth_frame}
 
@@ -89,7 +89,7 @@ class RobotIterableDataset(IterableDataset):
                 self.touch_timestamps = np.array(timestamps)
 
     def _init_streams(self):
-        """ Initialize tream and lists """
+        """ Initialize stream and lists """
 
         self.depth_files = sorted(glob.glob(os.path.join(self.dataset_dir, 'depth', 'frame-*.png')))
         self.touch_files = sorted(glob.glob(os.path.join(self.dataset_dir, 'touch', 'observation-*.txt')))
@@ -106,8 +106,8 @@ class RobotIterableDataset(IterableDataset):
         """ Sync capture indices """
 
         ts = self.touch_timestamps[idx]
-        rgb_idx = min((np.abs(ts - self.rgb_timestamps)).argmin(), self.rgb_timestamps.shape[0])
-        depth_idx = min((np.abs(ts - self.depth_timestamps)).argmin(), self.depth_timestamps.shape[0])
+        rgb_idx = (np.abs(ts - self.rgb_timestamps)).argmin()
+        depth_idx = (np.abs(ts - self.depth_timestamps)).argmin()
         return rgb_idx, depth_idx
 
     def _get_rgb_frame(self):

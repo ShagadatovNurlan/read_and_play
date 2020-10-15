@@ -60,7 +60,7 @@ class RobotDataset(Dataset):
                 self.touch_timestamps = np.array(timestamps)
 
     def _init_streams(self):
-        """ Initialize tream and lists """
+        """ Initialize stream and lists """
 
         self.depth_files = sorted(glob.glob(os.path.join(self.dataset_dir, 'depth', 'frame-*.png')))
         self.touch_files = sorted(glob.glob(os.path.join(self.dataset_dir, 'touch', 'observation-*.txt')))
@@ -75,6 +75,6 @@ class RobotDataset(Dataset):
         """ Sync capture indices """
 
         ts = self.touch_timestamps[idx]
-        rgb_idx = min((np.abs(ts - self.rgb_timestamps)).argmin(), self.rgb_timestamps.shape[0])
-        depth_idx = min((np.abs(ts - self.depth_timestamps)).argmin(), self.depth_timestamps.shape[0])
+        rgb_idx = (np.abs(ts - self.rgb_timestamps)).argmin()
+        depth_idx = (np.abs(ts - self.depth_timestamps)).argmin()
         return rgb_idx, depth_idx
